@@ -40,7 +40,7 @@ char *prompNormalRequest(char *message)
 
     temp = size(temp, 256);
 
-    printf("%s\n", message);
+    printf("%s", message);
     scanf("%s", temp);
 
     return temp;

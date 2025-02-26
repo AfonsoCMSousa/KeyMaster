@@ -55,7 +55,7 @@ int main(void)
             return 0;
         }
     }
-    printf("KeyMaster\nVersion: 0.1.0 (no cli)\n\n");
+    printf("KeyMaster\nVersion: 0.2\n\n");
 
     try
     {
@@ -99,7 +99,6 @@ int main(void)
         free(askedPass);
         free(key);
     }
-
     catch (MEMORY_ALLOC_FAILURE)
     {
         fprintf(stderr, "Memory allocation failure\n");
@@ -111,6 +110,45 @@ int main(void)
         return 1;
     }
     end_try;
+
+    char *choice = NULL;
+
+    try
+    {
+        choice = create(char);
+        choice = size(choice, 256);
+
+        if (choice == NULL)
+        {
+            throw(MEMORY_ALLOC_FAILURE);
+        }
+    }
+    catch (MEMORY_ALLOC_FAILURE)
+    {
+        fprintf(stderr, "Memory allocation failure\n");
+        return 1;
+    }
+    end_try;
+
+    // Menu loop
+    while (1)
+    {
+        printf("List of existing passwords:\n<------->\n");
+        // Show passwords that are stored in the server
+        printf("<------->\n\n");
+        choice = prompNormalRequest(">> ");
+        if (strcmp(choice, "exit") == 0 || strcmp(choice, "quit") == 0 || strcmp(choice, "q") == 0)
+        {
+            break;
+        }
+        else
+        {
+            printf("Invalid command (%s)\n\"Q\" or \"quit\" or \"exit\" to close the program\n", choice);
+        }
+
+        // Connect to the server and get the list of passwords tro HTTP GET
+    }
+    free(choice);
 
     free(password);
     return 0;
