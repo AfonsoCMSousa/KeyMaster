@@ -54,7 +54,7 @@ int main(void)
             return 0;
         }
     }
-    printf("KeyMaster\nVersion: 0.1\n\n");
+    printf("KeyMaster\nVersion: 0.2\n\n");
 
     try
     {
