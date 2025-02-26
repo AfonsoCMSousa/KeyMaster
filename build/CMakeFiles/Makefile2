@@ -63,11 +63,11 @@ CMAKE_BINARY_DIR = /Users/AfonsoCMSosua/Developer/KeyMaster/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/KeyMaster.dir/all
+all: CMakeFiles/KeyMaster_server.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/KeyMaster.dir/codegen
+codegen: CMakeFiles/KeyMaster_server.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,40 +75,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/KeyMaster.dir/clean
+clean: CMakeFiles/KeyMaster_server.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/KeyMaster.dir
+# Target rules for target CMakeFiles/KeyMaster_server.dir
 
 # All Build rule for target.
-CMakeFiles/KeyMaster.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles --progress-num=1,2 "Built target KeyMaster"
-.PHONY : CMakeFiles/KeyMaster.dir/all
+CMakeFiles/KeyMaster_server.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles --progress-num=1,2 "Built target KeyMaster_server"
+.PHONY : CMakeFiles/KeyMaster_server.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/KeyMaster.dir/rule: cmake_check_build_system
+CMakeFiles/KeyMaster_server.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/KeyMaster.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/KeyMaster_server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles 0
-.PHONY : CMakeFiles/KeyMaster.dir/rule
+.PHONY : CMakeFiles/KeyMaster_server.dir/rule
 
 # Convenience name for target.
-KeyMaster: CMakeFiles/KeyMaster.dir/rule
-.PHONY : KeyMaster
+KeyMaster_server: CMakeFiles/KeyMaster_server.dir/rule
+.PHONY : KeyMaster_server
 
 # codegen rule for target.
-CMakeFiles/KeyMaster.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles --progress-num=1,2 "Finished codegen for target KeyMaster"
-.PHONY : CMakeFiles/KeyMaster.dir/codegen
+CMakeFiles/KeyMaster_server.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles --progress-num=1,2 "Finished codegen for target KeyMaster_server"
+.PHONY : CMakeFiles/KeyMaster_server.dir/codegen
 
 # clean rule for target.
-CMakeFiles/KeyMaster.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/clean
-.PHONY : CMakeFiles/KeyMaster.dir/clean
+CMakeFiles/KeyMaster_server.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/clean
+.PHONY : CMakeFiles/KeyMaster_server.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

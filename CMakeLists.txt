@@ -17,7 +17,7 @@ set(CMAKE_C_STANDARD 17)
 # Include header files from the include directory
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-add_executable(${APP_NAME} ${SOURCE}/main.c)
+add_executable(${APP_NAME}_server ${SOURCE}/server.c)
 
 # Display a message when compiling
 message(STATUS "Compiling ${APP_NAME}...")

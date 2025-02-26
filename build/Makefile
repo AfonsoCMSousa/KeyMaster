@@ -117,41 +117,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named KeyMaster
+# Target rules for targets named KeyMaster_server
 
 # Build rule for target.
-KeyMaster: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 KeyMaster
-.PHONY : KeyMaster
+KeyMaster_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 KeyMaster_server
+.PHONY : KeyMaster_server
 
 # fast build rule for target.
-KeyMaster/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/build
-.PHONY : KeyMaster/fast
+KeyMaster_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/build
+.PHONY : KeyMaster_server/fast
 
-src/main.o: src/main.c.o
-.PHONY : src/main.o
+src/server.o: src/server.c.o
+.PHONY : src/server.o
 
 # target to build an object file
-src/main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/src/main.c.o
-.PHONY : src/main.c.o
+src/server.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/src/server.c.o
+.PHONY : src/server.c.o
 
-src/main.i: src/main.c.i
-.PHONY : src/main.i
+src/server.i: src/server.c.i
+.PHONY : src/server.i
 
 # target to preprocess a source file
-src/main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/src/main.c.i
-.PHONY : src/main.c.i
+src/server.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/src/server.c.i
+.PHONY : src/server.c.i
 
-src/main.s: src/main.c.s
-.PHONY : src/main.s
+src/server.s: src/server.c.s
+.PHONY : src/server.s
 
 # target to generate assembly for a file
-src/main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster.dir/build.make CMakeFiles/KeyMaster.dir/src/main.c.s
-.PHONY : src/main.c.s
+src/server.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/KeyMaster_server.dir/build.make CMakeFiles/KeyMaster_server.dir/src/server.c.s
+.PHONY : src/server.c.s
 
 # Help Target
 help:
@@ -161,10 +161,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... KeyMaster"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... KeyMaster_server"
+	@echo "... src/server.o"
+	@echo "... src/server.i"
+	@echo "... src/server.s"
 .PHONY : help
 
 
