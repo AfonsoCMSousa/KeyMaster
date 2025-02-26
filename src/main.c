@@ -7,6 +7,7 @@
 #include "ui/ui.h"
 
 #define PASS_FILE "./files/KEYS.bin"
+#define SERVER_IP "XXX.XXX.XXX.XXX"
 
 void clear_input_buffer(void)
 {
