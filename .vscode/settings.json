@@ -1,0 +1,18 @@
+{
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "variable",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "scope": "entity.name.function",
+                "settings": {
+                    "fontStyle": "bold"
+                }
+            }
+        ]
+    }
+}
