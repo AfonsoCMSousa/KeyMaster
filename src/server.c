@@ -9,7 +9,7 @@
 #include "dynmem.h"
 #include "ui/ui.h"
 
-#define SERVER_IP "148.71.10.137"
+#define SERVER_IP "192.168.1.120"
 
 int main(void)
 {
