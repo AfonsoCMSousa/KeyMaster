@@ -1,3 +1,0 @@
-/Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles/KeyMaster_server.dir
-/Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles/edit_cache.dir
-/Users/AfonsoCMSosua/Developer/KeyMaster/build/CMakeFiles/rebuild_cache.dir
