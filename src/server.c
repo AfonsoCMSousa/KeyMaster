@@ -25,4 +25,39 @@ int main(void)
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(8080);
     servaddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+
+    if (bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0)
+    {
+        fprintf(stderr, "Socket bind failed\n");
+        close(sockfd);
+        return 1;
+    }
+
+    if (listen(sockfd, 5) != 0)
+    {
+        fprintf(stderr, "Listen failed\n");
+        close(sockfd);
+        return 1;
+    }
+
+    printf("Server listening on %s:8080\n", SERVER_IP);
+
+    struct sockaddr_in cli;
+    int len = sizeof(cli);
+
+    int connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
+    if (connfd < 0)
+    {
+        fprintf(stderr, "Server accept failed\n");
+        close(sockfd);
+        return 1;
+    }
+
+    printf("Client connected\n");
+
+    // Close the socket
+    close(connfd);
+    close(sockfd);
+
+    return 0;
 }
