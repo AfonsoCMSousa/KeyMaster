@@ -4,12 +4,15 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#include <string.h>
 
 #include "herror.h"
 #include "dynmem.h"
 #include "ui/ui.h"
 
 #define SERVER_IP "192.168.1.120"
+#define PASSWORDS "./files/KEYS.bin"
 
 int main(void)
 {
@@ -54,6 +57,34 @@ int main(void)
     }
 
     printf("Client connected\n");
+
+    // Listen to the client requests
+    while (1)
+    {
+        char buffer[1024] = {0};
+        int bytes_read = read(connfd, buffer, sizeof(buffer));
+        if (bytes_read <= 0)
+        {
+            fprintf(stderr, "Client disconnected\n");
+            break;
+        }
+
+        printf("Received request: %s\n", buffer);
+
+        // Respond with the list of passwords
+        FILE *file = fopen(PASSWORDS, "r");
+        if (file == NULL)
+        {
+            fprintf(stderr, "Could not open password file\n");
+            break;
+        }
+
+        char passwords[1024] = {0};
+        fread(passwords, sizeof(char), sizeof(passwords), file);
+        fclose(file);
+
+        write(connfd, passwords, strlen(passwords));
+    }
 
     // Close the socket
     close(connfd);
