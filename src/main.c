@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
-#include <curl/curl.h> // Include libcurl header
 
 #include "herror.h"
 #include "dynmem.h"
@@ -14,49 +13,6 @@ void clear_input_buffer(void)
     int c;
     while ((c = getchar()) != '\n' && c != EOF)
         ;
-}
-
-// Function to perform a GET request
-void perform_get_request(const char *url)
-{
-    CURL *curl;
-    CURLcode res;
-
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if (curl)
-    {
-        curl_easy_setopt(curl, CURLOPT_URL, url);
-        res = curl_easy_perform(curl);
-        if (res != CURLE_OK)
-        {
-            fprintf(stderr, "GET request failed: %s\n", curl_easy_strerror(res));
-        }
-        curl_easy_cleanup(curl);
-    }
-    curl_global_cleanup();
-}
-
-// Function to perform a POST request
-void perform_post_request(const char *url, const char *post_fields)
-{
-    CURL *curl;
-    CURLcode res;
-
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if (curl)
-    {
-        curl_easy_setopt(curl, CURLOPT_URL, url);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_fields);
-        res = curl_easy_perform(curl);
-        if (res != CURLE_OK)
-        {
-            fprintf(stderr, "POST request failed: %s\n", curl_easy_strerror(res));
-        }
-        curl_easy_cleanup(curl);
-    }
-    curl_global_cleanup();
 }
 
 int main(void)
@@ -154,17 +110,41 @@ int main(void)
     }
     end_try;
 
-    // Example usage of GET and POST requests
-    const char *get_url = "http://148.71.10.137:51820/";
-    const char *post_fields = "field1=value1&field2=value2";
+    char *choice = NULL;
+
+    try
+    {
+        choice = create(char);
+        choice = size(choice, 256);
+
+        if (choice == NULL)
+        {
+            throw(MEMORY_ALLOC_FAILURE);
+        }
+    }
+    catch (MEMORY_ALLOC_FAILURE)
+    {
+        fprintf(stderr, "Memory allocation failure\n");
+        return 1;
+    }
+    end_try;
 
     // Menu loop
     while (1)
     {
+        printf("List of existing passwords:\n<------->\n");
+        // Show passwords that are stored in the server
+        printf("<------->\n\n");
+        choice = prompNormalRequest(">> ");
+        if (strcmp(choice, "exit") == 0 || strcmp(choice, "quit") == 0 || strcmp(choice, "q") == 0)
+        {
+            break;
+        }
 
         // Connect to the server and get the list of passwords tro HTTP GET
-        free(choice);
     }
+    free(choice);
+
     free(password);
     return 0;
 }
