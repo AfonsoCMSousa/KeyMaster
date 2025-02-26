@@ -130,6 +130,7 @@ CMakeFiles/KeyMaster_server.dir/src/server.c.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/sys/_types/_iovec_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/netinet/in.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/netinet6/in6.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/arpa/inet.h \
   /Users/AfonsoCMSosua/Developer/KeyMaster/include/herror.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/setjmp.h \
   /Users/AfonsoCMSosua/Developer/KeyMaster/include/dynmem.h \

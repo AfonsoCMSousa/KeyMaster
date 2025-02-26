@@ -3,12 +3,13 @@
 #include <termios.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "herror.h"
 #include "dynmem.h"
 #include "ui/ui.h"
 
-#define SERVER_IP "XXX.XXX.XXX.XXX"
+#define SERVER_IP "148.71.10.137"
 
 int main(void)
 {

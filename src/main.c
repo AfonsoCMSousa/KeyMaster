@@ -134,6 +134,7 @@ int main(void)
     while (1)
     {
         printf("List of existing passwords:\n<------->\n");
+
         // Show passwords that are stored in the server
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
