@@ -5,4 +5,4 @@
 /bin/files/KEYS.bin
 
 # CMAKEFILES
-/build/
+/build/*
