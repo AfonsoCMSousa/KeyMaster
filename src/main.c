@@ -98,7 +98,6 @@ int main(void)
         free(askedPass);
         free(key);
     }
-
     catch (MEMORY_ALLOC_FAILURE)
     {
         fprintf(stderr, "Memory allocation failure\n");
@@ -110,7 +109,32 @@ int main(void)
         return 1;
     }
     end_try;
-
     free(password);
+
+    // Menu loop
+    while (1)
+    {
+        printf("1. Add a new password\n2. Show all passwords\n3. Exit\n");
+        char *choice = prompNormalRequest("Enter your choice: ");
+        if (strcmp(choice, "1") == 0)
+        {
+            printf("Adding a new password\n");
+        }
+        else if (strcmp(choice, "2") == 0)
+        {
+            printf("Showing all passwords\n");
+        }
+        else if (strcmp(choice, "3") == 0)
+        {
+            printf("Exiting...\n");
+            break;
+        }
+        else
+        {
+            printf("Invalid choice\n");
+        }
+        free(choice);
+    }
+
     return 0;
 }
