@@ -1,13 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 #include "herror.h"
 #include "dynmem.h"
 #include "ui/ui.h"
 
 #define PASS_FILE "./files/KEYS.bin"
-#define SERVER_IP "XXX.XXX.XXX.XXX"
+#define SERVER_IP "192.168.1.120"
+#define SERRER_PORT 8080
 
 void clear_input_buffer(void)
 {
@@ -130,11 +136,31 @@ int main(void)
     }
     end_try;
 
+    // Connect to the server
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1)
+    {
+        fprintf(stderr, "Socket creation failed\n");
+        return 1;
+    }
+
+    struct sockaddr_in servaddr;
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(SERRER_PORT);
+    servaddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+
+    if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0)
+    {
+        fprintf(stderr, "Connection to the server failed\n");
+        return 1;
+    }
+
     // Menu loop
     while (1)
     {
         printf("List of existing passwords:\n<------->\n");
         // Show passwords that are stored in the server
+
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
         if (strcmp(choice, "exit") == 0 || strcmp(choice, "quit") == 0 || strcmp(choice, "q") == 0)
@@ -146,10 +172,13 @@ int main(void)
             printf("Invalid command (%s)\n\"Q\" or \"quit\" or \"exit\" to close the program\n", choice);
         }
 
-        // Connect to the server and get the list of passwords tro HTTP GET
+        // Connect to the server and get the list of passwords through HTTP GET
     }
-    free(choice);
 
+    // Close the socket
+    close(sockfd);
+
+    free(choice);
     free(password);
     return 0;
 }
