@@ -140,6 +140,10 @@ int main(void)
         {
             break;
         }
+        else
+        {
+            printf("Invalid command (%s)\n\"Q\" or \"quit\" or \"exit\" to close the program\n", choice);
+        }
 
         // Connect to the server and get the list of passwords tro HTTP GET
     }
