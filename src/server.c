@@ -131,6 +131,7 @@ int main(void)
                 aux.level = -1;
                 send(connfd, &aux, sizeof(aux), 0);
             }
+            end_try;
 
             // debug
             printf("Sending key: [%s]\n", buffer);
@@ -140,7 +141,7 @@ int main(void)
             try
             {
                 sendKEY = create(char);
-                sendKEY = size(send, 256);
+                sendKEY = size(sendKEY, 256);
                 if (sendKEY == NULL)
                 {
                     throw(MEMORY_ALLOC_FAILURE);
