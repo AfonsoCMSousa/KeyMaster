@@ -170,6 +170,28 @@ int main(void)
             emcryptText(key2, req.key);
             writel(filepath, key2, 256);
         }
+        else if (req.type == 2)
+        {
+            // debug
+            printf("Received request type 2\n");
+
+            char filepath[256];
+
+            printf("Received key: %s\n", req.key);
+            printf("Received level: %d\n", req.level);
+            sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
+
+            printf("Deleting key from file: %s\n", filepath);
+
+            if (remove(filepath) != 0)
+            {
+                fprintf(stderr, "Error deleting file\n");
+            }
+        }
+        else
+        {
+            fprintf(stderr, "Invalid request type\n");
+        }
     }
 
     // Close the socket

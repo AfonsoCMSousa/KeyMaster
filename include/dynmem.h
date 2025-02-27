@@ -42,7 +42,7 @@
 */
 
 #define add(ptr, index, value) ptr[index] = value //@param ptr Pointer to add the value @param index Index of the value to add @param value Value to add
-#define remove(ptr, index) ptr[index] = 0         //@param ptr Pointer to remove the value @param index Index of the value to remove
+#define removePTR(ptr, index) ptr[index] = 0      //@param ptr Pointer to remove the value @param index Index of the value to remove
 
 #ifdef __INTELLISENSE__
 #define create(type) ((type *)malloc(sizeof(type)))                       //@param type Type of the vector @example int *vector = create(int);
