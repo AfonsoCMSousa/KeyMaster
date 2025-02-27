@@ -107,6 +107,8 @@ int main(void)
 
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
 
+            printf("Reading key from file: %s\n", filepath);
+
             int *buffer = NULL;
 
             try
