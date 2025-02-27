@@ -134,26 +134,9 @@ int main(void)
             end_try;
 
             // debug
-            printf("Sending key: [%s]\n", buffer);
+            printf("Sending key: [%x]\n", buffer[0]);
 
-            char *sendKEY = NULL;
-
-            try
-            {
-                sendKEY = create(char);
-                sendKEY = size(sendKEY, 256);
-                if (sendKEY == NULL)
-                {
-                    throw(MEMORY_ALLOC_FAILURE);
-                }
-            }
-            catch (MEMORY_ALLOC_FAILURE)
-            {
-                fprintf(stderr, "Memory allocation failed\n");
-                close(sockfd);
-                return 1;
-            }
-            end_try;
+            char sendKEY[256];
 
             decryptText(sendKEY, buffer);
 
