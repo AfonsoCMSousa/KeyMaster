@@ -141,6 +141,10 @@ int main(void)
             {
                 sendKEY = create(char);
                 sendKEY = size(send, 256);
+                if (sendKEY == NULL)
+                {
+                    throw(MEMORY_ALLOC_FAILURE);
+                }
             }
             catch (MEMORY_ALLOC_FAILURE)
             {
@@ -148,11 +152,12 @@ int main(void)
                 close(sockfd);
                 return 1;
             }
+            end_try;
 
             decryptText(sendKEY, buffer);
 
             aux.ID = req.ID;
-            memccpy(aux.key, send, 0, 256);
+            memccpy(aux.key, sendKEY, 0, 256);
             aux.level = req.level;
             aux.type = req.type;
             send(connfd, &aux, sizeof(aux), 0);
