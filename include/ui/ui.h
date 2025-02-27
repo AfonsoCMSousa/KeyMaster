@@ -8,7 +8,7 @@
 
 #include "ui.c"
 
-int pomrpPassword(char *password);
+int prompPassword(char *password);
 char *prompNormalRequest(char *message);
 
 #endif // !UI_H

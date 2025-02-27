@@ -15,6 +15,13 @@
 #define SERVER_IP "192.168.1.120"
 #define SERRER_PORT 8080
 
+typedef struct Request
+{
+    unsigned char type;
+    char *key;
+    int ID;
+} Request;
+
 void clear_input_buffer(void)
 {
     int c;
@@ -159,7 +166,19 @@ int main(void)
     while (1)
     {
         printf("List of existing passwords:\n<------->\n");
-        // Show passwords that are stored in the server
+
+        // Send a request with type 0 (REQUEST)
+        Request req;
+        req.type = 0;
+        req.key = NULL;
+        req.ID = 0;
+
+        send(sockfd, &req, sizeof(Request), 0);
+
+        // Receive response from the server
+        char response[1024] = {0};
+        recv(sockfd, response, sizeof(response), 0);
+        printf("%s\n", response);
 
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
@@ -171,8 +190,6 @@ int main(void)
         {
             printf("Invalid command (%s)\n\"Q\" or \"quit\" or \"exit\" to close the program\n", choice);
         }
-
-        // Connect to the server and get the list of passwords through HTTP GET
     }
 
     // Close the socket
