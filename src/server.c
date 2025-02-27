@@ -92,7 +92,11 @@ int main(void)
         // TYPE == 0 is the equivelent of a GET
         if (req.type == 0)
         {
-            char *filepath = PASSWORDS;
+            char *filepath = create(char);
+            filepath = size(filepath, 256);
+
+            strcpy(filepath, PASSWORDS);
+
             sprintf(filepath, "%s%d.bin", filepath, req.level);
             if (readl(filepath, buffer, 256) == -1)
             {
