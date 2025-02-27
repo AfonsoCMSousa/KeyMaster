@@ -158,7 +158,10 @@ int main(void)
             decryptText(sendKEY, buffer);
 
             aux.ID = req.ID;
-            memccpy(aux.key, sendKEY, 0, 256);
+            for (size_t i = 0; i < 256; i++)
+            {
+                aux.key[i] = sendKEY[i];
+            }
             aux.level = req.level;
             aux.type = req.type;
             send(connfd, &aux, sizeof(aux), 0);
