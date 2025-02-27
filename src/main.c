@@ -192,7 +192,7 @@ int main(void)
         {
             break;
         }
-        else if (strcmp("choise", "addpass"))
+        else if (strcmp(choice, "addpass") == 0)
         {
             char *aux = create(char);
             aux = size(aux, 256);
