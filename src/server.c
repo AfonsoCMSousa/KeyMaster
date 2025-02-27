@@ -119,6 +119,9 @@ int main(void)
                 send(connfd, &aux, sizeof(aux), 0);
             }
 
+            // debug
+            printf("Sending key: [%s]\n", buffer);
+
             aux.ID = req.ID;
             memccpy(aux.key, buffer, 0, 256);
             aux.level = req.level;
