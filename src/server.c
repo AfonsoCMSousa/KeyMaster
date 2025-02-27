@@ -101,7 +101,7 @@ int main(void)
                 aux.key = NULL;
                 aux.type = req.type;
                 aux.level = -1;
-                send();
+                send(connfd, &aux, sizeof(aux), 0);
             }
         }
     }
