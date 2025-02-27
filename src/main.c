@@ -167,24 +167,24 @@ int main(void)
     while (1)
     {
         printf("\nList of existing passwords:\n<------->\n");
-
-        // Send a request with type 0 (REQUEST)
         Request req;
-        req.type = 0;
-        memset(&req, 0, sizeof(req));
-        req.ID = 0;
-        req.level = 1;
-        send(sockfd, &req, sizeof(Request), 0);
 
-        // Receive response from the server
-        recv(sockfd, &req, sizeof(req), 0);
-        if (req.level == -1)
+        for (size_t i = 0; i < 254; i++)
         {
-            printf("No existing passwords with, use \"addpass\" command to add a password to the list.\n");
-        }
-        else
-        {
-            printf("Level: %d\tKey: %s\n", req.level, req.key);
+            // Send a request with type 0 (REQUEST)
+
+            req.type = 0;
+            memset(&req, 0, sizeof(req));
+            req.ID = 0;
+            req.level = (int)i;
+            send(sockfd, &req, sizeof(Request), 0);
+
+            // Receive response from the server
+            recv(sockfd, &req, sizeof(req), 0);
+            if (req.level != -1)
+            {
+                printf("Level: %d\tKey: %s\n", req.level, req.key);
+            }
         }
 
         printf("<------->\n\n");
