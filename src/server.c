@@ -89,6 +89,8 @@ int main(void)
             isConnected = 0;
         }
 
+        printf("Received request for ID: %d\n", req.ID);
+
         // TYPE == 0 is the equivelent of a GET
         if (req.type == 0)
         {
