@@ -56,9 +56,6 @@ int main(void)
     struct sockaddr_in cli;
     u_int32_t len = sizeof(cli);
 
-    char *buffer = create(char);
-    buffer = size(buffer, 256);
-
     Request req;
 
     memset(&req, 0, sizeof(req));
@@ -109,6 +106,21 @@ int main(void)
             filepath = size(filepath, 256);
 
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
+
+            int *buffer = NULL;
+
+            try
+            {
+                buffer = create(int);
+                buffer = size(buffer, 256);
+            }
+            catch (MEMORY_ALLOC_FAILURE)
+            {
+                fprintf(stderr, "Memory allocation failed\n");
+                close(sockfd);
+                return 1;
+            }
+
             int i = readl(filepath, buffer, 256);
             if (i == -1)
             {
@@ -123,8 +135,24 @@ int main(void)
             // debug
             printf("Sending key: [%s]\n", buffer);
 
+            char *sendKEY = NULL;
+
+            try
+            {
+                sendKEY = create(char);
+                sendKEY = size(send, 256);
+            }
+            catch (MEMORY_ALLOC_FAILURE)
+            {
+                fprintf(stderr, "Memory allocation failed\n");
+                close(sockfd);
+                return 1;
+            }
+
+            decryptText(sendKEY, buffer);
+
             aux.ID = req.ID;
-            memccpy(aux.key, buffer, 0, 256);
+            memccpy(aux.key, send, 0, 256);
             aux.level = req.level;
             aux.type = req.type;
             send(connfd, &aux, sizeof(aux), 0);
