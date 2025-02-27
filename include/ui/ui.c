@@ -2,11 +2,11 @@
 #include "herror.h"
 #include "dynmem.h"
 
-int prompPassword(char *password)
+int prompPassword(char *password, const char *msg)
 {
     struct termios oldt, newt;
 
-    printf("Please enter your unique password:");
+    printf(msg);
     try
     {
         // Disable echo
