@@ -166,7 +166,7 @@ int main(void)
     // Menu loop
     while (1)
     {
-        printf("List of existing passwords:\n<------->\n");
+        printf("\nList of existing passwords:\n<------->\n");
 
         // Send a request with type 0 (REQUEST)
         Request req;
