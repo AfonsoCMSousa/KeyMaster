@@ -95,8 +95,9 @@ int main(void)
         // debug
         printf("Received request\n");
 
-        // TYPE == 0 is the equivelent of a GET
-        if (req.type == 0)
+        switch (req.type)
+        {
+        case 0:
         {
             // debug
             Request aux;
@@ -127,7 +128,6 @@ int main(void)
             int i = readl(filepath, buffer, 256);
             if (i == -1)
             {
-
                 aux.ID = req.ID;
                 memset(&req, 0, sizeof(req));
                 aux.type = req.type;
@@ -152,8 +152,9 @@ int main(void)
             send(connfd, &aux, sizeof(aux), 0);
 
             free(filepath);
+            break;
         }
-        else if (req.type == 1)
+        case 1:
         {
             // debug
             printf("Received request type 1\n");
@@ -169,8 +170,9 @@ int main(void)
 
             emcryptText(key2, req.key);
             writel(filepath, key2, 256);
+            break;
         }
-        else if (req.type == 2)
+        case 2:
         {
             // debug
             printf("Received request type 2\n");
@@ -187,10 +189,11 @@ int main(void)
             {
                 fprintf(stderr, "Error deleting file\n");
             }
+            break;
         }
-        else
-        {
+        default:
             fprintf(stderr, "Invalid request type\n");
+            break;
         }
     }
 
