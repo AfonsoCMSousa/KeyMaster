@@ -182,7 +182,10 @@ int main(void)
         {
             printf("No existing passwords, use \"addpass\" command to add a password to the list.\n");
         }
-
+        else
+        {
+            printf("Level: %d\tKey: %s\n", req.level, req.key);
+        }
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
         if (strcmp(choice, "exit") == 0 || strcmp(choice, "quit") == 0 || strcmp(choice, "q") == 0)
