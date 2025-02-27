@@ -109,7 +109,8 @@ int main(void)
             filepath = size(filepath, 256);
 
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
-            if (readl(filepath, buffer, 256) == -1)
+            int i = readl(filepath, buffer, 256);
+            if (i == -1)
             {
 
                 aux.ID = req.ID;
