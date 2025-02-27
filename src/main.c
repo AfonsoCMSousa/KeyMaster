@@ -18,7 +18,7 @@
 typedef struct Request
 {
     unsigned char type;
-    char *key;
+    char key[256];
     int ID;
     int level;
 } Request;
@@ -171,7 +171,7 @@ int main(void)
         // Send a request with type 0 (REQUEST)
         Request req;
         req.type = 0;
-        req.key = NULL;
+        memset(&req, 0, sizeof(req));
         req.ID = 0;
 
         send(sockfd, &req, sizeof(Request), 0);
@@ -223,7 +223,8 @@ int main(void)
 
             // send request with TYPE = 1
             req.type = 1;
-            req.key = aux;
+            strncpy(req.key, aux, sizeof(req.key) - 1);
+            req.key[sizeof(req.key) - 1] = '\0'; // Ensure null-termination
             req.ID = 1;
             req.level = level;
 
