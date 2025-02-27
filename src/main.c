@@ -169,21 +169,22 @@ int main(void)
         printf("\nList of existing passwords:\n<------->\n");
         Request req;
 
-        for (size_t i = 0; i < 254; i++)
+        for (int i = 0; i < 256; i++)
         {
-            // Send a request with type 0 (REQUEST)
+            Request req1;
 
-            req.type = 0;
-            memset(&req, 0, sizeof(req));
-            req.ID = 0;
-            req.level = (int)i;
-            send(sockfd, &req, sizeof(Request), 0);
+            req1.type = 0;
+            memset(&req1.key, 0, sizeof(req1.key));
+            req1.ID = 0;
+            req1.level = i;
+
+            send(sockfd, &req1, sizeof(req1), 0);
 
             // Receive response from the server
-            recv(sockfd, &req, sizeof(req), 0);
-            if (req.level != -1)
+            recv(sockfd, &req1, sizeof(req1), 0);
+            if (req1.level != -1 && strlen(req1.key) > 0)
             {
-                printf("Level: %d\tKey: %s\n", req.level, req.key);
+                printf("Level: %d\tKey: %s\n", req1.level, req1.key);
             }
         }
 
