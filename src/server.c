@@ -59,6 +59,19 @@ int main(void)
     char *buffer = create(char);
     buffer = size(buffer, 256);
 
+    Request req;
+
+    req.key = malloc(256 * sizeof(char));
+    if (req.key == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        close(sockfd);
+        return 1;
+    }
+    req.ID = 0;
+    req.level = 0;
+    req.type = 0;
+
     u_int8_t isConnected = 0;
     int connfd;
 
@@ -81,7 +94,6 @@ int main(void)
 
         printf("Client connected\n");
 
-        Request req;
         int n = recv(connfd, &req, sizeof(req), 0);
         if (n <= 0)
         {
@@ -89,9 +101,15 @@ int main(void)
             isConnected = 0;
         }
 
+        // debug
+        printf("Received request\n");
+
         // TYPE == 0 is the equivelent of a GET
         if (req.type == 0)
         {
+            // debug
+            printf("Received request type 0\n");
+
             char *filepath = create(char);
             filepath = size(filepath, 256);
 
@@ -111,6 +129,9 @@ int main(void)
         }
         else if (req.type == 1)
         {
+            // debug
+            printf("Received request type 1\n");
+
             char filepath[256];
 
             printf("Received key: %s\n", req.key);
