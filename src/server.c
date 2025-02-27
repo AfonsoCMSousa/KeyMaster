@@ -17,7 +17,7 @@
 typedef struct Request
 {
     unsigned char type;
-    char *key;
+    char key[256];
     int ID;
     int level;
 } Request;
@@ -61,13 +61,7 @@ int main(void)
 
     Request req;
 
-    req.key = malloc(256 * sizeof(char));
-    if (req.key == NULL)
-    {
-        fprintf(stderr, "Memory allocation failed\n");
-        close(sockfd);
-        return 1;
-    }
+    memset(&req, 0, sizeof(req));
     req.ID = 0;
     req.level = 0;
     req.type = 0;
@@ -120,7 +114,7 @@ int main(void)
             {
                 Request aux;
                 aux.ID = req.ID;
-                aux.key = NULL;
+                memset(&req, 0, sizeof(req));
                 aux.type = req.type;
                 aux.level = -1;
                 send(connfd, &aux, sizeof(aux), 0);
