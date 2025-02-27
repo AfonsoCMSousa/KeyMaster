@@ -113,8 +113,11 @@ int main(void)
         {
             char filepath[256];
 
+            printf("Received key: %s\n", req.key);
+            printf("Received level: %d\n", req.level);
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
 
+            printf("Writing key to file: %s\n", filepath);
             int *key2 = create(int);
             key2 = size(key2, 256);
 
