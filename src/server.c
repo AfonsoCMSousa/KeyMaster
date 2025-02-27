@@ -114,9 +114,7 @@ int main(void)
             char *filepath = create(char);
             filepath = size(filepath, 256);
 
-            strcpy(filepath, PASSWORDS);
-
-            sprintf(filepath, "%s%d.bin", filepath, req.level);
+            sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
 
             int *key2 = create(int);
             key2 = size(key2, 256);
