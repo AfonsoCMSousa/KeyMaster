@@ -82,7 +82,7 @@ int main(void)
         printf("Client connected\n");
 
         Request req;
-        int n = recv(connfd, &req, sizeof(Request), 0);
+        int n = recv(connfd, &req, sizeof(req), 0);
         if (n <= 0)
         {
             fprintf(stderr, "Client disconnected\n");
@@ -111,8 +111,7 @@ int main(void)
         }
         else if (req.type == 1)
         {
-            char *filepath = create(char);
-            filepath = size(filepath, 256);
+            char filepath[256];
 
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
 
@@ -123,7 +122,6 @@ int main(void)
             writel(filepath, key2, 256);
 
             free(key2);
-            free(filepath);
         }
     }
 
