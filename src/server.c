@@ -191,6 +191,43 @@ int main(void)
             }
             break;
         }
+        case 3:
+        {
+            // Return the client with
+            // level == how many keys are being sent
+            // key == the list of levels that have keys
+
+            // debug
+            printf("Received request type 3\n");
+
+            Request aux;
+            aux.ID = req.ID;
+            aux.type = req.type;
+
+            FILE *file;
+            int levelCount = 0;
+            char levels[256] = {0};
+
+            for (int i = 0; i < 256; i++)
+            {
+                char filepath[256];
+                sprintf(filepath, "%s%d.bin", PASSWORDS, i);
+
+                file = fopen(filepath, "r");
+                if (file != NULL)
+                {
+                    levels[levelCount] = i;
+                    levelCount++;
+                    fclose(file);
+                }
+            }
+
+            aux.level = levelCount;
+            memcpy(aux.key, levels, 256);
+
+            send(connfd, &aux, sizeof(aux), 0);
+            break;
+        }
         default:
             fprintf(stderr, "Invalid request type\n");
             break;
