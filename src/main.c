@@ -20,6 +20,7 @@ typedef struct Request
     unsigned char type;
     char *key;
     int ID;
+    int level;
 } Request;
 
 void clear_input_buffer(void)
@@ -59,7 +60,7 @@ int main(void)
             buffer = size(buffer, 256);
 
             emcryptText(buffer, password);
-            writel(PASS_FILE, buffer, 256 * sizeof(int));
+            writel(PASS_FILE, buffer, 256);
 
             free(buffer);
         }
@@ -176,15 +177,21 @@ int main(void)
         send(sockfd, &req, sizeof(Request), 0);
 
         // Receive response from the server
-        char response[1024] = {0};
-        recv(sockfd, response, sizeof(response), 0);
-        printf("%s\n", response);
+        recv(sockfd, &req, sizeof(req), 0);
+        if (req.level == -1)
+        {
+            printf("No existing passwords, use \"addpass\" command to add a password to the list.\n");
+        }
 
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
         if (strcmp(choice, "exit") == 0 || strcmp(choice, "quit") == 0 || strcmp(choice, "q") == 0)
         {
             break;
+        }
+        else if (strcmp("choise", "addpass"))
+        {
+            printf("adding new password to the server.");
         }
         else
         {
