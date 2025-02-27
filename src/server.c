@@ -108,6 +108,18 @@ int main(void)
                 send(connfd, &aux, sizeof(aux), 0);
             }
         }
+        else if (req.type == 1)
+        {
+            char *filepath = create(char);
+            filepath = size(filepath, 256);
+
+            strcpy(filepath, PASSWORDS);
+
+            sprintf(filepath, "%s%d.bin", filepath, req.level);
+
+            encryptText(req.key, req.key);
+            writel(filepath, req.key, 256);
+        }
     }
 
     // Close the socket
