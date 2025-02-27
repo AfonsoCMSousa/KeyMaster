@@ -117,7 +117,7 @@ int main(void)
 
             sprintf(filepath, "%s%d.bin", filepath, req.level);
 
-            encryptText(req.key, req.key);
+            emcryptText(req.key, req.key);
             writel(filepath, req.key, 256);
         }
     }
