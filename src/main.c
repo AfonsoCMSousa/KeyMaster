@@ -199,8 +199,8 @@ int main(void)
             prompPassword(aux, "Please enter your new password: ");
             printf("\n");
             char *aux2 = create(char);
-            aux2 = size(aux, 256);
-            prompPassword(aux, "Confirm new password: ");
+            aux2 = size(aux2, 256);
+            prompPassword(aux2, "Confirm new password: ");
             printf("\n");
 
             if (strcmp(aux, aux2) != 0)
@@ -226,12 +226,17 @@ int main(void)
 
             // send request with TYPE = 1
             req.type = 1;
-            strncpy(req.key, aux, sizeof(req.key) - 1);
+            for (size_t i = 0; i < 256; i++)
+            {
+                req.key[i] = aux[i];
+            }
             req.key[sizeof(req.key) - 1] = '\0'; // Ensure null-termination
             req.ID = 1;
             req.level = level;
 
-            send(sockfd, &req, sizeof(Request), 0);
+            send(sockfd, &req, sizeof(req), 0);
+            free(aux);
+            free(aux2);
         }
         else
         {
