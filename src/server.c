@@ -102,23 +102,29 @@ int main(void)
         if (req.type == 0)
         {
             // debug
+            Request aux;
             printf("Received request type 0\n");
 
             char *filepath = create(char);
             filepath = size(filepath, 256);
 
-            strcpy(filepath, PASSWORDS);
-
-            sprintf(filepath, "%s%d.bin", filepath, req.level);
+            sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
             if (readl(filepath, buffer, 256) == -1)
             {
-                Request aux;
+
                 aux.ID = req.ID;
                 memset(&req, 0, sizeof(req));
                 aux.type = req.type;
                 aux.level = -1;
                 send(connfd, &aux, sizeof(aux), 0);
             }
+
+            aux.ID = req.ID;
+            memccpy(aux.key, buffer, 0, 256);
+            aux.level = req.level;
+            aux.type = req.type;
+            send(connfd, &aux, sizeof(aux), 0);
+
             free(filepath);
         }
         else if (req.type == 1)
