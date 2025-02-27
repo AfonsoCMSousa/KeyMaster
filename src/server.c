@@ -122,6 +122,7 @@ int main(void)
                 close(sockfd);
                 return 1;
             }
+            end_try;
 
             int i = readl(filepath, buffer, 256);
             if (i == -1)
@@ -133,7 +134,6 @@ int main(void)
                 aux.level = -1;
                 send(connfd, &aux, sizeof(aux), 0);
             }
-            end_try;
 
             // debug
             printf("Sending key: [%x]\n", buffer[0]);
