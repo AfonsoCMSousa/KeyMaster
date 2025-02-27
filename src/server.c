@@ -89,8 +89,6 @@ int main(void)
             isConnected = 0;
         }
 
-        printf("Received request for ID: %d\n", req.ID);
-
         // TYPE == 0 is the equivelent of a GET
         if (req.type == 0)
         {
@@ -120,13 +118,10 @@ int main(void)
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
 
             printf("Writing key to file: %s\n", filepath);
-            int *key2 = create(int);
-            key2 = size(key2, 256);
+            int key2[256];
 
             emcryptText(key2, req.key);
             writel(filepath, key2, 256);
-
-            free(key2);
         }
     }
 
