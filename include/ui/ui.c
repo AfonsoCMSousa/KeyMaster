@@ -6,7 +6,7 @@ int prompPassword(char *password, const char *msg)
 {
     struct termios oldt, newt;
 
-    printf(msg);
+    printf("%s", msg);
     try
     {
         // Disable echo

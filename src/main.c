@@ -92,7 +92,7 @@ int main(void)
 
         for (size_t i = 0; i < 4; i++)
         {
-            prompPassword(askedPass);
+            prompPassword(askedPass, "Please enter your unique password: ");
             if (strcmp(password, askedPass) != 0)
             {
                 printf("Invalid password, tries left: %zu\n", 2 - i);
