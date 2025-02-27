@@ -12,13 +12,14 @@
 #include "ui/ui.h"
 
 #define SERVER_IP "192.168.1.120"
-#define PASSWORDS "./files/KEYS.bin"
+#define PASSWORDS "./files/USER_PASSWORDS_L"
 
 typedef struct Request
 {
     unsigned char type;
     char *key;
     int ID;
+    int level;
 } Request;
 
 int main(void)
@@ -55,26 +56,53 @@ int main(void)
     struct sockaddr_in cli;
     u_int32_t len = sizeof(cli);
 
-    int connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
-    if (connfd < 0)
-    {
-        fprintf(stderr, "Server accept failed\n");
-        close(sockfd);
-        return 1;
-    }
+    char *buffer = create(char);
+    buffer = size(buffer, 256);
 
-    printf("Client connected\n");
+    u_int8_t isConnected = 0;
+    int connfd;
 
     // Listen to the client requests
     while (1)
     {
         // Receive the request
+
+        if (!isConnected)
+        {
+            connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
+            if (connfd < 0)
+            {
+                fprintf(stderr, "Server accept failed\n");
+                close(sockfd);
+            }
+        }
+
+        isConnected = 1;
+
+        printf("Client connected\n");
+
         Request req;
         int n = recv(connfd, &req, sizeof(Request), 0);
         if (n <= 0)
         {
             fprintf(stderr, "Client disconnected\n");
-            break;
+            isConnected = 0;
+        }
+
+        // TYPE == 0 is the equivelent of a GET
+        if (req.type == 0)
+        {
+            char *filepath = PASSWORDS;
+            sprintf(filepath, "%s%d.bin", filepath, req.level);
+            if (readl(filepath, buffer, 256) == -1)
+            {
+                Request aux;
+                aux.ID = req.ID;
+                aux.key = NULL;
+                aux.type = req.type;
+                aux.level = -1;
+                send();
+            }
         }
     }
 

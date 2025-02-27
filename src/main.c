@@ -46,7 +46,7 @@ int main(void)
             buffer = size(buffer, 256);
 
             emcryptText(buffer, password);
-            writel(PASS_FILE, buffer, 256 * sizeof(int));
+            writel(PASS_FILE, buffer, 256);
 
             free(buffer);
         }
