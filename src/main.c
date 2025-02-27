@@ -169,7 +169,39 @@ int main(void)
         printf("\nList of existing passwords:\n<------->\n");
         Request req;
 
-        for (int i = 0; i < 256; i++)
+        // send request with type 4 to get IDs for all passwords
+        req.type = 4;
+        memset(&req.key, 0, sizeof(req.key));
+        req.ID = 1;
+        req.level = 0;
+
+        send(sockfd, &req, sizeof(req), 0);
+        if (req.level == -1)
+        {
+            printf("No passwords found\n");
+        }
+        else
+        {
+            for (int i = 0; i < req.level; i++)
+            {
+                Request req1;
+
+                req1.type = 0;
+                memset(&req1.key, 0, sizeof(req1.key));
+                req1.ID = i;
+                req1.level = 0;
+
+                send(sockfd, &req1, sizeof(req1), 0);
+
+                // Receive response from the server
+                recv(sockfd, &req1, sizeof(req1), 0);
+                if (req1.level != -1 && strlen(req1.key) > 0)
+                {
+                    printf("ID: %d\tKey: %s\n", req1.ID, req1.key);
+                }
+            }
+        }
+        /* for (int i = 0; i < 256; i++)
         {
             Request req1;
 
@@ -186,7 +218,7 @@ int main(void)
             {
                 printf("Level: %d\tKey: %s\n", req1.level, req1.key);
             }
-        }
+        } */
 
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
@@ -239,6 +271,26 @@ int main(void)
             send(sockfd, &req, sizeof(req), 0);
             free(aux);
             free(aux2);
+        }
+        else if (strcmp(choice, "delpass") == 0)
+        {
+            printf("Please enter the level of security for the password to delete (1-255): ");
+            int level;
+            scanf("%d", &level);
+            clear_input_buffer();
+
+            if (level < 0 && level > 255)
+            {
+                printf("Invalid level of security\nStopping...\n");
+                continue;
+            }
+            // send request with TYPE = 2
+            req.type = 2;
+            memset(&req.key, 0, sizeof(req.key));
+            req.ID = 1;
+            req.level = level;
+
+            send(sockfd, &req, sizeof(req), 0);
         }
         else
         {
