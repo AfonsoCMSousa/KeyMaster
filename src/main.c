@@ -173,19 +173,20 @@ int main(void)
         req.type = 0;
         memset(&req, 0, sizeof(req));
         req.ID = 0;
-
+        req.level = 1;
         send(sockfd, &req, sizeof(Request), 0);
 
         // Receive response from the server
         recv(sockfd, &req, sizeof(req), 0);
         if (req.level == -1)
         {
-            printf("No existing passwords, use \"addpass\" command to add a password to the list.\n");
+            printf("No existing passwords with, use \"addpass\" command to add a password to the list.\n");
         }
         else
         {
             printf("Level: %d\tKey: %s\n", req.level, req.key);
         }
+
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
         if (strcmp(choice, "exit") == 0 || strcmp(choice, "quit") == 0 || strcmp(choice, "q") == 0)
