@@ -107,6 +107,7 @@ int main(void)
                 aux.level = -1;
                 send(connfd, &aux, sizeof(aux), 0);
             }
+            free(filepath);
         }
         else if (req.type == 1)
         {
@@ -117,8 +118,14 @@ int main(void)
 
             sprintf(filepath, "%s%d.bin", filepath, req.level);
 
-            emcryptText(req.key, req.key);
-            writel(filepath, req.key, 256);
+            int *key2 = create(int);
+            key2 = size(key2, 256);
+
+            emcryptText(key2, req.key);
+            writel(filepath, key2, 256);
+
+            free(key2);
+            free(filepath);
         }
     }
 
