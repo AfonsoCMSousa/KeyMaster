@@ -50,7 +50,7 @@ int main(void)
         clear_input_buffer();
         if (c == 'y' || c == 'Y')
         {
-            if (prompPassword(password) == -1)
+            if (prompPassword(password, "Please enter your unique password: ") == -1)
             {
                 return 1;
             }
@@ -191,7 +191,43 @@ int main(void)
         }
         else if (strcmp("choise", "addpass"))
         {
-            printf("adding new password to the server.");
+            char *aux = create(char);
+            aux = size(aux, 256);
+            prompPassword(aux, "Please enter your new password: ");
+            printf("\n");
+            char *aux2 = create(char);
+            aux2 = size(aux, 256);
+            prompPassword(aux, "Confirm new password: ");
+            printf("\n");
+
+            if (strcmp(aux, aux2) != 0)
+            {
+                printf("Passwords do not match\nStopping...\n");
+                free(aux);
+                free(aux2);
+                continue;
+            }
+
+            printf("Please enter the level of security for the password (1-255) (higher = more complexity): ");
+            int level;
+            scanf("%d", &level);
+            clear_input_buffer();
+
+            if (level < 0 && level > 255)
+            {
+                printf("Invalid level of security\nStopping...\n");
+                free(aux);
+                free(aux2);
+                continue;
+            }
+
+            // send request with TYPE = 1
+            req.type = 1;
+            req.key = aux;
+            req.ID = 1;
+            req.level = level;
+
+            send(sockfd, &req, sizeof(Request), 0);
         }
         else
         {
