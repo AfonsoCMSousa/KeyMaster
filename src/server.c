@@ -14,6 +14,13 @@
 #define SERVER_IP "192.168.1.120"
 #define PASSWORDS "./files/KEYS.bin"
 
+typedef struct Request
+{
+    unsigned char type;
+    char *key;
+    int ID;
+} Request;
+
 int main(void)
 {
     // Connect and bind to a port (8080) on the server
@@ -46,7 +53,7 @@ int main(void)
     printf("Server listening on %s:8080\n", SERVER_IP);
 
     struct sockaddr_in cli;
-    int len = sizeof(cli);
+    u_int32_t len = sizeof(cli);
 
     int connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
     if (connfd < 0)
@@ -61,29 +68,14 @@ int main(void)
     // Listen to the client requests
     while (1)
     {
-        char buffer[1024] = {0};
-        int bytes_read = read(connfd, buffer, sizeof(buffer));
-        if (bytes_read <= 0)
+        // Receive the request
+        Request req;
+        int n = recv(connfd, &req, sizeof(Request), 0);
+        if (n <= 0)
         {
             fprintf(stderr, "Client disconnected\n");
             break;
         }
-
-        printf("Received request: %s\n", buffer);
-
-        // Respond with the list of passwords
-        FILE *file = fopen(PASSWORDS, "r");
-        if (file == NULL)
-        {
-            fprintf(stderr, "Could not open password file\n");
-            break;
-        }
-
-        char passwords[1024] = {0};
-        fread(passwords, sizeof(char), sizeof(passwords), file);
-        fclose(file);
-
-        write(connfd, passwords, strlen(passwords));
     }
 
     // Close the socket
