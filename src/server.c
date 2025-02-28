@@ -168,7 +168,7 @@ int main(void)
             printf("Writing key to file: %s\n", filepath);
             int key2[256];
 
-            emcryptText(key2, req.key);
+            encryptText(key2, req.key);
             writel(filepath, key2, 256);
             break;
         }

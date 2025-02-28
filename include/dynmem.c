@@ -66,11 +66,13 @@ void writel(const char *filepath, void *buffer, size_t size)
 #endif
 }
 
-void emcryptText(int *output, char *password)
+void encryptText(int *output, char *password)
 {
     for (int i = 0; i < 256; i++)
     {
-        output[i] = (int)password[i] * 2;
+        output[i] = (int)password[i];
+        output[i] ^= 0xFF; // Invert bitwise all characters in the password
+        output[i] = output[i] * 2;
     }
 }
 
@@ -78,6 +80,7 @@ void decryptText(char *output, int *password)
 {
     for (int i = 0; i < 256; i++)
     {
-        output[i] = (char)(password[i] / 2);
+        int temp = password[i] / 2;
+        output[i] = (char)(temp ^ 0xFF); // Reverse the XOR and division operations
     }
 }

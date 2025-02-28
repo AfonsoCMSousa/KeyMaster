@@ -55,7 +55,7 @@
 int readl(const char *filepath, void *buffer, size_t size);   //@param filepath Path to the file @param buffer Buffer to store the file @param size Size parameter specifies the number of bytes to read
 void writel(const char *filepath, void *buffer, size_t size); //@param filepath Path to the file @param buffer Buffer to write to the file @param size Size parameter specifies the number of bytes to write
 
-void emcryptText(int *output, char *password); //@param output Output buffer to store the encrypted text @param password Password to encrypt the text
+void encryptText(int *output, char *password); //@param output Output buffer to store the encrypted text @param password Password to encrypt the text
 
 void decryptText(char *output, int *password); //@param output Output buffer to store the decrypted text @param password Password to decrypt the text
 
