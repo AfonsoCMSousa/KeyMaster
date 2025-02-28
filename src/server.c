@@ -15,6 +15,8 @@
 #define SERVER_IP "192.168.1.120"
 #define PASSWORDS "./files/USER_PASSWORDS_L"
 
+int sockfd;
+
 typedef struct Request
 {
     unsigned char type;
@@ -68,7 +70,7 @@ void *handle_client(void *arg)
             {
                 fprintf(stderr, "Memory allocation failed\n");
                 close(sockfd);
-                return 1;
+                return NULL;
             }
             end_try;
 
@@ -190,7 +192,7 @@ void *handle_client(void *arg)
 int main(void)
 {
     // Connect and bind to a port (8080) on the server
-    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1)
     {
         fprintf(stderr, "Socket creation failed\n");
