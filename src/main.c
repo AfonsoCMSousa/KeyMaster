@@ -202,7 +202,13 @@ int main(void)
                 recv(sockfd, &req1, sizeof(req1), 0);
                 if (req1.level != -1 && strlen(req1.key) > 0)
                 {
-                    printf("Level: %d\tKey: %s\n", req1.level, req1.key);
+                    char hidden_key[256];
+                    strncpy(hidden_key, req1.key, 6);
+                    for (size_t i = 6; i < strlen(req1.key); i++)
+                    {
+                        hidden_key[i] = '.';
+                    }
+                    printf("Level: %d\tKey: %s\n", req1.level, hidden_key);
                 }
             }
         }
