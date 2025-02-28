@@ -70,7 +70,7 @@ int main(void)
             return 0;
         }
     }
-    printf("KeyMaster\nVersion: 0.3\n\n");
+    printf("KeyMaster\nVersion: 0.3.1\n\n");
 
     try
     {
