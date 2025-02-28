@@ -180,6 +180,8 @@ int main(void)
         req.level = 0;
 
         send(sockfd, &req, sizeof(req), 0);
+
+        recv(sockfd, &req, sizeof(req), 0);
         if (req.level == -1)
         {
             printf("No passwords found\n");
@@ -187,26 +189,23 @@ int main(void)
         else
         {
             // Debug the response
-            printf("Level: %d\tKey: %s\n", req.level, req.key);
-        }
-        /* for (int i = 0; i < 256; i++)
-        {
-            Request req1;
-
-            req1.type = 0;
-            memset(&req1.key, 0, sizeof(req1.key));
-            req1.ID = 0;
-            req1.level = i;
-
-            send(sockfd, &req1, sizeof(req1), 0);
-
-            // Receive response from the server
-            recv(sockfd, &req1, sizeof(req1), 0);
-            if (req1.level != -1 && strlen(req1.key) > 0)
+            for (size_t i = 0; i < req.level; i++)
             {
-                printf("Level: %d\tKey: %s\n", req1.level, req1.key);
+                Request req1;
+                req1.type = 0;
+                memset(&req1.key, 0, sizeof(req1.key));
+                req1.ID = 1;
+                req1.level = req.key[i];
+
+                send(sockfd, &req1, sizeof(req1), 0);
+
+                recv(sockfd, &req1, sizeof(req1), 0);
+                if (req1.level != -1 && strlen(req1.key) > 0)
+                {
+                    printf("Level: %d\tKey: %s\n", req1.level, req1.key);
+                }
             }
-        } */
+        }
 
         printf("<------->\n\n");
         choice = prompNormalRequest(">> ");
