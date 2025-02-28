@@ -6,6 +6,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+#include <pthread.h>
 
 #include "herror.h"
 #include "dynmem.h"
@@ -22,85 +23,20 @@ typedef struct Request
     int level;
 } Request;
 
-int main(void)
+void *handle_client(void *arg)
 {
-    // Connect and bind to a port (8080) on the server
-    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd == -1)
-    {
-        fprintf(stderr, "Socket creation failed\n");
-        return 1;
-    }
-
-    struct sockaddr_in servaddr;
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(8080);
-    servaddr.sin_addr.s_addr = inet_addr(SERVER_IP);
-
-    if (bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0)
-    {
-        fprintf(stderr, "Socket bind failed\n");
-        close(sockfd);
-        return 1;
-    }
-
-    if (listen(sockfd, 5) != 0)
-    {
-        fprintf(stderr, "Listen failed\n");
-        close(sockfd);
-        return 1;
-    }
-
-    printf("Server listening on %s:8080\n", SERVER_IP);
-
-    struct sockaddr_in cli;
-    u_int32_t len = sizeof(cli);
-
+    int connfd = *(int *)arg;
+    free(arg);
     Request req;
 
-    memset(&req, 0, sizeof(req));
-    req.ID = 0;
-    req.level = 0;
-    req.type = 0;
-
-    u_int8_t isConnected = 0;
-    int connfd;
-
-    /*
-     * WE NEED TO IMPLEMENT A WAY TO HANDLE MULTIPLE CLIENTS
-     * AND MAKE IT SABLE (RIGHT NOW IT CRASHES EVERY TIME A CLIENT DISCONNECTS)
-     *
-     * ALSO MAKE A BETTER WAY OF STOPPING THE SERVER
-     *
-     * TODO:
-     * -1 Fix the chashing issues
-     * -2 Implement a way to stop the server
-     * -3 Implement a way to handle multiple clients
-     */
-
-    // Listen to the client requests
     while (1)
     {
-        // Receive the request
-        if (!isConnected)
-        {
-            connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
-            if (connfd < 0)
-            {
-                fprintf(stderr, "Server accept failed\n");
-                close(sockfd);
-            }
-            isConnected = 1;
-            continue;
-        }
-
-        printf("Client connected\n");
-
         int n = recv(connfd, &req, sizeof(req), 0);
         if (n <= 0)
         {
             fprintf(stderr, "Client disconnected\n");
-            isConnected = 0;
+            close(connfd);
+            pthread_exit(NULL);
         }
 
         // debug
@@ -247,8 +183,83 @@ int main(void)
             fprintf(stderr, "Invalid request type\n");
             break;
         }
+    }
+    return NULL;
+}
 
-        // Stop the server as the server
+int main(void)
+{
+    // Connect and bind to a port (8080) on the server
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1)
+    {
+        fprintf(stderr, "Socket creation failed\n");
+        return 1;
+    }
+
+    struct sockaddr_in servaddr;
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(8080);
+    servaddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+
+    if (bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0)
+    {
+        fprintf(stderr, "Socket bind failed\n");
+        close(sockfd);
+        return 1;
+    }
+
+    if (listen(sockfd, 5) != 0)
+    {
+        fprintf(stderr, "Listen failed\n");
+        close(sockfd);
+        return 1;
+    }
+
+    printf("Server listening on %s:8080\n", SERVER_IP);
+
+    struct sockaddr_in cli;
+    u_int32_t len = sizeof(cli);
+
+    Request req;
+
+    memset(&req, 0, sizeof(req));
+    req.ID = 0;
+    req.level = 0;
+    req.type = 0;
+
+    u_int8_t isConnected = 0;
+    int connfd;
+
+    /*
+     * WE NEED TO IMPLEMENT A WAY TO HANDLE MULTIPLE CLIENTS
+     * AND MAKE IT SABLE (RIGHT NOW IT CRASHES EVERY TIME A CLIENT DISCONNECTS)
+     *
+     * ALSO MAKE A BETTER WAY OF STOPPING THE SERVER
+     *
+     * TODO:
+     * -1 Fix the chashing issues --DONE
+     * -2 Implement a way to stop the server
+     * -3 Implement a way to handle multiple clients --TESTING
+     */
+
+    // Listen to the client requests
+    while (1)
+    {
+        int *connfd = malloc(sizeof(int));
+        *connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
+        if (*connfd < 0)
+        {
+            fprintf(stderr, "Server accept failed\n");
+            free(connfd);
+            continue;
+        }
+
+        printf("Client connected\n");
+
+        pthread_t tid;
+        pthread_create(&tid, NULL, handle_client, connfd);
+        pthread_detach(tid);
     }
 
     // Close the socket
