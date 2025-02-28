@@ -66,11 +66,22 @@ int main(void)
     u_int8_t isConnected = 0;
     int connfd;
 
+    /*
+     * WE NEED TO IMPLEMENT A WAY TO HANDLE MULTIPLE CLIENTS
+     * AND MAKE IT SABLE (RIGHT NOW IT CRASHES EVERY TIME A CLIENT DISCONNECTS)
+     *
+     * ALSO MAKE A BETTER WAY OF STOPPING THE SERVER
+     *
+     * TODO:
+     * -1 Fix the chashing issues
+     * -2 Implement a way to stop the server
+     * -3 Implement a way to handle multiple clients
+     */
+
     // Listen to the client requests
     while (1)
     {
         // Receive the request
-
         if (!isConnected)
         {
             connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
@@ -79,9 +90,9 @@ int main(void)
                 fprintf(stderr, "Server accept failed\n");
                 close(sockfd);
             }
+            isConnected = 1;
+            continue;
         }
-
-        isConnected = 1;
 
         printf("Client connected\n");
 
@@ -161,7 +172,7 @@ int main(void)
 
             char filepath[256];
 
-            printf("Received key: %s\n", req.key);
+            printf("Received key: [%x]\n", req.key[0]);
             printf("Received level: %d\n", req.level);
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
 
@@ -179,7 +190,7 @@ int main(void)
 
             char filepath[256];
 
-            printf("Received key: %s\n", req.key);
+            printf("Received key: [%x]\n", req.key[0]);
             printf("Received level: %d\n", req.level);
             sprintf(filepath, "%s%d.bin", PASSWORDS, req.level);
 
@@ -226,9 +237,8 @@ int main(void)
             memcpy(aux.key, levels, 256);
 
             // debug
-
             printf("Sending response\n");
-            printf("Level: %d\tKey: %s\n", aux.level, aux.key);
+            printf("Level: %d\tKey: [%x]\n", aux.level, aux.key[0]);
 
             send(connfd, &aux, sizeof(aux), 0);
             break;
@@ -237,6 +247,8 @@ int main(void)
             fprintf(stderr, "Invalid request type\n");
             break;
         }
+
+        // Stop the server as the server
     }
 
     // Close the socket
