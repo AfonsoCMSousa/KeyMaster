@@ -32,6 +32,7 @@ void clear_input_buffer(void)
 
 int main(void)
 {
+
     char *password = create(char);
     password = size(password, 256);
 
@@ -59,7 +60,7 @@ int main(void)
             int *buffer = create(int);
             buffer = size(buffer, 256);
 
-            emcryptText(buffer, password);
+            encryptText(buffer, password);
             writel(PASS_FILE, buffer, 256);
 
             free(buffer);
@@ -169,8 +170,11 @@ int main(void)
         printf("\nList of existing passwords:\n<------->\n");
         Request req;
 
-        // send request with type 4 to get IDs for all passwords
-        req.type = 4;
+        // send request with type 3 to get IDs for all passwords
+        // level == how many keys are being sent
+        // key == the list of levels that have keys
+
+        req.type = 3;
         memset(&req.key, 0, sizeof(req.key));
         req.ID = 1;
         req.level = 0;
