@@ -202,12 +202,18 @@ int main(void)
                 recv(sockfd, &req1, sizeof(req1), 0);
                 if (req1.level != -1 && strlen(req1.key) > 0)
                 {
-                    char hidden_key[256];
+                    char hidden_key[256] = {0};
                     strncpy(hidden_key, req1.key, 6);
-                    for (size_t i = 6; i < strlen(req1.key); i++)
+                    if (strlen(req1.key) > 6)
                     {
-                        hidden_key[i] = '.';
+                        hidden_key[5] = '<';
+                        for (size_t i = 6; i < strlen(req1.key); i++)
+                        {
+                            hidden_key[i] = '.';
+                        }
+                        hidden_key[strlen(req1.key) - 1] = '>';
                     }
+
                     printf("Level: %d\tKey: %s\n", req1.level, hidden_key);
                 }
             }
@@ -284,6 +290,36 @@ int main(void)
             req.level = level;
 
             send(sockfd, &req, sizeof(req), 0);
+        }
+        else if (strcmp(choice, "getpass") == 0)
+        {
+            printf("Please enter the level of security for the password to get (1-255): ");
+            int level;
+            scanf("%d", &level);
+            clear_input_buffer();
+
+            if (level < 0 && level > 255)
+            {
+                printf("Invalid level of security\nStopping...\n");
+                continue;
+            }
+            // send request with TYPE = 0
+            req.type = 0;
+            memset(&req.key, 0, sizeof(req.key));
+            req.ID = 1;
+            req.level = level;
+
+            send(sockfd, &req, sizeof(req), 0);
+
+            recv(sockfd, &req, sizeof(req), 0);
+            if (req.level != -1 && strlen(req.key) > 0)
+            {
+                printf("Password: %s\n", req.key);
+            }
+            else
+            {
+                printf("\nPassword not found\n");
+            }
         }
         else
         {
