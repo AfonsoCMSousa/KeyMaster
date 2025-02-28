@@ -186,24 +186,8 @@ int main(void)
         }
         else
         {
-            for (int i = 0; i < req.level; i++)
-            {
-                Request req1;
-
-                req1.type = 0;
-                memset(&req1.key, 0, sizeof(req1.key));
-                req1.ID = i;
-                req1.level = 0;
-
-                send(sockfd, &req1, sizeof(req1), 0);
-
-                // Receive response from the server
-                recv(sockfd, &req1, sizeof(req1), 0);
-                if (req1.level != -1 && strlen(req1.key) > 0)
-                {
-                    printf("ID: %d\tKey: %s\n", req1.ID, req1.key);
-                }
-            }
+            // Debug the response
+            printf("Level: %d\tKey: %s\n", req.level, req.key);
         }
         /* for (int i = 0; i < 256; i++)
         {
