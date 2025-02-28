@@ -225,6 +225,11 @@ int main(void)
             aux.level = levelCount;
             memcpy(aux.key, levels, 256);
 
+            // debug
+
+            printf("Sending response\n");
+            printf("Level: %d\tKey: %s\n", aux.level, aux.key);
+
             send(connfd, &aux, sizeof(aux), 0);
             break;
         }
